@@ -1,0 +1,8 @@
+*.terraform
+*.out
+*.pem
+*.tfstate
+*.tfstate.backup
+*.lock.info
+*.ppk
+.DS_Store
