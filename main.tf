@@ -154,26 +154,14 @@ resource "aws_elastic_beanstalk_environment" "environment" {
   setting {
     namespace = "aws:elasticbeanstalk:sns:topics"
     name      = "Notification Topic ARN"
-    value     = aws_sns_topic.beanstalk_alert.arn
+    value     = var.sns_topic_arn
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:sns:topics"
     name      = "Notification Topic Name"
-    value     = aws_sns_topic.beanstalk_alert.name
+    value     = var.sns_topic_name
   }
-
-  //setting {
-  //  namespace = "aws:elasticbeanstalk:sns:topics"
-  //  name      = "Notification Endpoint"
-  //  value     = var.notification_mailbox
-  //}
-
-  //setting {
-  //  namespace = "aws:elasticbeanstalk:sns:topics"
-  //  name      = "Notification Protocol"
-  //  value     = "email"
-  //}
 
   # A quick and safe rollback in case the deployment fails. 
   setting {

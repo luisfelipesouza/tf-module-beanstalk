@@ -16,12 +16,6 @@ output "code_pipeline_id" {
 output "code_pipeline_name" {
   value = aws_codepipeline.codepipeline.name
 }
-output "sns_topic_arn" {
-  value = aws_sns_topic.beanstalk_alert.arn
-}
-output "sns_topic_name" {
-  value = aws_sns_topic.beanstalk_alert.name
-}
 output "update_iam_policy" {
   value = aws_iam_policy.application_policy.name
 }

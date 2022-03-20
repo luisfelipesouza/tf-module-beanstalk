@@ -123,11 +123,11 @@ variable "enable_xray" {
 }
 variable "stream_logs" {
   type = bool
-  default = false
+  default = true
 }
 variable "delete_logs" {
   type = bool
-  default = false
+  default = true
 }
 variable "retention_logs" {
   type = number
@@ -154,43 +154,9 @@ variable "iam_attach_groups" {
   type = list(string)
   default = [""]
 }
-variable "gitlab_token" {
-  type = string
-  default = "-"
+variable "sns_topic_arn"{
+    type = string
 }
-variable "gitlab_url" {
-  type = string
-  default = ""
-}
-variable "gitlab_id" {
-  type = string
-  default = ""
-}
-variable "gitlab_sha" {
-  type = string
-  default = ""
-}
-variable "lambda_source" {
-  type = string
-  default = ""
-}
-variable "teams_webhook_host" {
-  type  = string
-  default = ""
-}
-variable "teams_webhook_path" {
-  type  = string
-  default = ""
-}
-variable "github_url"{
-  type  = string
-  default = ""
-}
-variable "github_owner" {
-  type  = string
-  default = ""
-}
-variable "github_repo"{
-  type  = string
-  default = ""
+variable "sns_topic_name" {
+    type = string
 }

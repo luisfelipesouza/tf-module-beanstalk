@@ -3,11 +3,6 @@ resource "random_id" "id" {
 }
 
 locals {
-  lambda_source = {
-    "gitlab" = "${var.gitlab_url}/api/v4/projects/${var.gitlab_id}/repository/archive?private_token=${var.gitlab_token}&sha=${var.gitlab_sha}"
-    "github" = "${var.github_url}/repos/${var.github_owner}/${var.github_repo}/zipball/main"
-  }
-  
   identifier            = lower("${var.application}-${var.environment}-${random_id.id.hex}")
   loadbalancer_settings = {
     "application" = [
