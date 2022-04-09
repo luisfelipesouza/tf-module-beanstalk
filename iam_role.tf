@@ -40,12 +40,6 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {
 }
 
 // OK
-resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWorkerTier" {
-  role       = aws_iam_role.instance.id
-  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
-}
-
-// OK
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkCustomPlatformforEC2Role" {
   role       = aws_iam_role.instance.id
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkCustomPlatformforEC2Role"
@@ -69,12 +63,6 @@ resource "aws_iam_role_policy_attachment" "AmazonSSMAutomationRole" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole"
 }
 
-// OK
-resource "aws_iam_role_policy_attachment" "AWSXrayWriteOnlyAccess" {
-  role       = aws_iam_role.instance.id
-  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
-}
-
 // Allows an environment to manage Amazon CloudWatch Logs log groups
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkRoleCWL" {
   role       = aws_iam_role.instance.id
@@ -85,4 +73,36 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkRoleCWL" {
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkRoleSNS" {
   role       = aws_iam_role.instance.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkRoleSNS"
+}
+
+data "aws_iam_policy_document" "bucket_policy" {
+  count = var.bucket_name == "" ? 0 : 1
+
+  statement {
+    effect    = "Allow"
+    actions   = [
+        "s3:ListBucket",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+    ]
+    resources = [
+        "arn:aws:s3:::${var.bucket_name}",
+        "arn:aws:s3:::${var.bucket_name}/*"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "bucket_policy" {
+  count   = var.bucket_name == "" ? 0 : 1
+
+  name    = lower("policy-bucket-${local.identifier}")
+  policy  = data.aws_iam_policy_document.bucket_policy[0].json
+}
+
+resource "aws_iam_role_policy_attachment" "beanstalk_role_attach" {
+  count         = var.bucket_name == "" ? 0 : 1
+
+  role          = aws_iam_role.instance.name
+  policy_arn    = aws_iam_policy.bucket_policy[0].arn
 }

@@ -27,10 +27,6 @@ variable "platform" {
   type = string
   default = "ec2"
 }
-variable "tier" {
-  type = string
-  default = "WebServer"
-}
 variable "min_instance" {
   type = number
   default = 1
@@ -159,4 +155,8 @@ variable "sns_topic_arn"{
 }
 variable "sns_topic_name" {
     type = string
+}
+variable "bucket_name" {
+  type = string
+  default = ""
 }

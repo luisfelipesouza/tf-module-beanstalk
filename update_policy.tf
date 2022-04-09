@@ -130,6 +130,20 @@ data "aws_iam_policy_document" "update" {
     resources = ["*"]
   }
 
+  statement {
+    effect    = "Allow"
+    actions   = [
+        "s3:ListBucket",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+    ]
+    resources = [
+        "arn:aws:s3:::${var.bucket_name}",
+        "arn:aws:s3:::${var.bucket_name}/*"
+    ]
+  }
+
 }
 
 resource "aws_iam_policy" "application_policy" {
