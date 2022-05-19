@@ -86,6 +86,7 @@ variable "rolling_update_type" {
 }
 variable "dynamic_environment" {
   type = list(any)
+  default = []
 }
 variable "platform_options" {
   type = list(any)
@@ -151,10 +152,12 @@ variable "iam_attach_groups" {
   default = [""]
 }
 variable "sns_topic_arn"{
-    type = string
+  type = string
+  default = ""
 }
 variable "sns_topic_name" {
-    type = string
+  type = string
+  default = ""
 }
 variable "bucket_name" {
   type = string
